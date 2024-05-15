@@ -8,9 +8,9 @@ if (!Session::checkLogin()) {
 
 ?>
 <div>
-    <section class="">
+    <section class="userId" data-user-id=<?= Session::get("adminId") ?>>
 
-        <div class="px-4 py-5 px-md-5 text-lg-start">
+        <div class=" px-4 py-5 px-md-5 text-lg-start">
             <div class="container">
                 <div class="row gx-lg-5 align-items-center">
                     <div class="col-lg-11 mb-5 mb-lg-0">
@@ -24,11 +24,11 @@ if (!Session::checkLogin()) {
                             </h3>
                             <div class="card-body py-5 px-md-5">
 
-                                <form method="post">
+                                <form method="post" id="postCv">
 
                                     <div class="mb-3">
                                         <label>Your Name </label>
-                                        <input class="form-control" id="exampleInputEmail1" name="applyUserName"
+                                        <input class="form-control" id="exampleInputEmail1" name="candidateUserName"
                                             aria-describedby="emailHelp">
 
                                     </div>
@@ -42,14 +42,14 @@ if (!Session::checkLogin()) {
                                         <h5>Cover Letter (Optional)</h5>
                                         <label for="formFileDisabled" class="form-label">write here</label>
                                         <textarea class="form-control" id="exampleFormControlTextarea1"
-                                            name="applyDescription" rows="3"></textarea>
+                                            name="candidateDescription" rows="candidateApply"></textarea>
                                     </div>
 
                             </div>
 
 
                             </form>
-                            <button type="submit" class="btn btn-danger">Send to CV</button>
+                            <button type="submit" class="btn btn-danger btn-post">Send to CV</button>
                         </div>
                     </div>
 

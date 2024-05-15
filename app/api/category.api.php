@@ -1,5 +1,5 @@
 <?php
-include_once(dirname(__FILE__) . '../../controllers/CategoryController.php');
+include_once(dirname(__FILE__) . '../../controllers/category.controller.php');
 $categoryController = new CategoryController();
 
 

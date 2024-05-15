@@ -1,6 +1,6 @@
 <?php
 include(__DIR__ . '../../layouts/header.php');
-include(__DIR__ . '/../../controllers/CategoryController.php');
+include(__DIR__ . '/../../controllers/category.controller.php');
 
 
 ?>

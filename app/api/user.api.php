@@ -1,6 +1,6 @@
 <?php
 
- include_once('../controllers/AccountController.php');
+ include_once('../controllers/account.controller.php');
 $accountController = new AccountController();
 
 if (($_SERVER["REQUEST_METHOD"] === "GET" && !isset($_GET['action'])) || ($_SERVER["REQUEST_METHOD"] === "POST" && !isset($_POST['action']))) {

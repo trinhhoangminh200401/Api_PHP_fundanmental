@@ -56,20 +56,19 @@
 
         public function delete($query)
         {
-            $this -> link -> beginTransaction();
+        
             try {
                 $delete_row = $this->link->query($query);
 
                 if ($delete_row) {
-                    $this->link->commit();
+                    
                     return $delete_row;
                 } else {
                   
-                    $this->link->rollback();
                     return false;
                 }
             } catch (Exception $e) {
-                $this->link->rollback();
+              
                 return false;
             }
         }

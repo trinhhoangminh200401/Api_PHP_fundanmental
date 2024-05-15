@@ -1,7 +1,7 @@
 <?php
 
-include(__DIR__ . '/../../controllers/JobController.php');
-include(__DIR__ . '/../../controllers/LocationController.php');
+include(__DIR__ . '/../../controllers/job.controller.php');
+include(__DIR__ . '/../../controllers/location.controller.php');
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
 $location = isset($_GET['location']) ? $_GET['location'] : '';

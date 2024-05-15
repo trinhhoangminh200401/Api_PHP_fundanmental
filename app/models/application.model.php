@@ -1,27 +1,37 @@
 <?php
+
 class ApplicationModel
 {
+    
     private $db;
     public function __construct($db)
     {
         $this->db = $db;
     }
 
- 
-    public  function applyCV($jobId, $fileNameCv, $applicationDescription, $appliationUserName,$adminId)
+    public function applyCV($jobId, $fileNameCv, $candidateDescription, $candidateUserName, $adminId)
     {
-        $query = "INSERT INTO tbl_application (jobId, fileNameCv, DateApplication, applicationDescription, appliationUserName) 
-        VALUES ('$jobId', '$fileNameCv', NOW(), '$applicationDescription', '$appliationUserName')";
-        $result= $this -> db -> insert($query);
-        if($result){
-            $applyId = $this->db->inserted_id;
-            $queryCandidateTbl= "INSERT INTO tbl_application_candidate(applyId,adminId) VALUES($applyId,$adminId)";
-            $queryCandidateTbl ? 'success to add tbl_application_candidate!' :" failed to add!";    
-        
-        }      
-        else{
-            return;
-        }
-    }
+      $expireDate = date('Y-m-d ', strtotime('+ 10 minutes'));
+      $querycheckJob = "SELECT applyId FROM tbl_application WHERE jobId = $jobId";
+      $jobExists = $this->db->select($querycheckJob);
+
+      if ($jobExists && mysqli_num_rows($jobExists) > 0) {
+         $row = mysqli_fetch_assoc($jobExists);
+         $applyId = $row['applyId'];
+      } else {
+         $createNewRecord = "INSERT INTO tbl_application (jobId, adminId) VALUES ($jobId, $adminId)";
+         $this->db->insert($createNewRecord);
+
+
+         $applyId = $this->db->inserted_id();
+
+      }
+
+      $queryCandidateTbl = "INSERT INTO tbl_application_candidate (applyId, candidateUserName, candidateDescription, fileNameCv, DateApplication, expiryDate,candidateId) 
+                      VALUES ($applyId, '$candidateUserName', '$candidateDescription', '$fileNameCv', NOW(), '$expireDate', '$adminId')";
+
+      $resultCandidateTbl = $this->db->insert($queryCandidateTbl);
+      return $resultCandidateTbl;
+   }
 
 }

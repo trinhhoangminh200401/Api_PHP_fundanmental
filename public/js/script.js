@@ -143,13 +143,13 @@ $(document).ready(function () {
                             <li>skills: <span class="list-skill d-inline-block my-4">
                                     <div class="row btnrow ">
                                         ${item.categoryName.split(",").map(
-                                            (category) => `
+                (category) => `
                         <div class="col-1 col-md-3  ">
                             <button type="button" class="btn   px-2 btn-outline-success ">
                                 ${category}
                             </button>
                         </div>`
-                                        ).join("")}
+            ).join("")}
                                     </div>
                                 </span>
                             </li>
@@ -181,7 +181,7 @@ $(document).ready(function () {
 
         storeSearchValues(keyword, option);
     });
-    const handleDebounceSearch = (keyword, option)=> {
+    const handleDebounceSearch = (keyword, option) => {
         let query = window.location.search
         const urlParams = new URLSearchParams(query);
         const keywordParameter = urlParams.get('keyword')
@@ -365,8 +365,8 @@ $(document).ready(function () {
         });
 
     }
-    
-    function storeSearchValues(keyword, option,callback) {
+
+    function storeSearchValues(keyword, option, callback) {
         sessionStorage.setItem('searchKeyword', keyword);
         sessionStorage.setItem('searchOption', option);
         if (callback && typeof callback === 'function') {
@@ -382,7 +382,7 @@ $(document).ready(function () {
         });
     };
 
-    $(".ibtn").click(debounce(()=>handleSearch()));
+    $(".ibtn").click(debounce(() => handleSearch()));
 
     $(".inputsearch").on("keypress", function (event) {
         if (event.key === "Enter") {
@@ -407,7 +407,7 @@ $(document).ready(function () {
         let id = $(this).data('jobid')
         SessionStorage.setSessionStorage("clickedJobId", id)
 
-    
+
 
         if (storedKeyword && storedOption) {
             SessionStorage.clearSessionStorage("searchKeyword")
@@ -417,7 +417,8 @@ $(document).ready(function () {
     })
     function handleinitRedirectSearch() {
 
-        if (storedKeyword && storedOption) {
+        if (
+            storedKeyword && storedOption) {
             handleDebounceSearch(storedKeyword, storedOption)
         }
 
@@ -653,7 +654,7 @@ $(document).ready(function () {
         $('.btnCreateJob').on('click', function () {
             $('#saveJobBtn').addClass('btnCreateJobAction')
             $('.jobTitle').text("Create Job")
-            if ($('.btnUpdateJob')) {
+            if ($('#saveJobBtn').hasClass('btnUpdateJob')) {
                 let formData = {}
                 $('#saveJobBtn').removeClass('btnUpdateJob')
                 $("#addJobForm input, #addJobForm .form-group textarea, #addJobForm select").each(function () {
@@ -694,7 +695,7 @@ $(document).ready(function () {
         });
     }
 
-    function updateJob(...rest) {
+    function updateJob(rest) {
         $('#exampleModalCenter').modal('show');
         $('#saveJobBtn').addClass('btnUpdateJob')
 
@@ -744,35 +745,27 @@ $(document).ready(function () {
     })
 
 
-    $(document).on('click', '.editJob', function () {
-      
+    $('.jobTable').on('click', '.editJob', function () {
+
         const jobId = $(this).closest('tr').find('td:eq(0)').text();
-        const jobName = $(this).closest('tr').find('td:eq(1)').text();
-        const jobDescription = $(this).closest('tr').find('td:eq(2)').text();
-        const location = $(this).closest('tr').find('td:eq(4)').text();
-        const category = $(this).closest('tr').find('td:eq(3)').text();
-        const status = $(this).closest('tr').find('td:eq(5)').text();
+
         const requestData = {
             action: 'getJobById',
             jobId: jobId,
-            jobName: jobName,
-            jobDescription: jobDescription,
-            location: location,
-            category: category,
-            status: status
+
         }
 
         $.ajax({
             url: '/app/api/job.api.php',
-            type: 'GET',
+            type: 'POST',
             data: requestData,
             dataType: 'json',
             success: function (response) {
-              
-                    updateJob(...response)
-              
+                console.log(response);
+                updateJob(response)
 
-             
+
+
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
@@ -929,25 +922,49 @@ $(document).ready(function () {
 
 
     }
-    
+
 
     function getIdJobToApply() {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const id = urlParams.get('jobId')
-        
+
         $.get(`/app/api/job.api.php?action=getJobById&jobId=${id}`, function (data, status) {
             const name = data.map(item => item.jobName)
-          
+
             $('.titleApplication').text(name)
         });
 
     }
-    if ($('.titleApplication')) {
-        getIdJobToApply()
+
+    function handlePostCv() {
+        const adminId = $('.userId').data('user-id')
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const id = urlParams.get('jobId')
+        const formData = { action: "postcv", adminId: adminId, jobId: id }
+        $("#postCv input, #postCv textarea").each(function () {
+            var fieldName = $(this).attr("name");
+            var fieldValue = $(this).val();
+            formData[fieldName] = fieldValue;
+        });
+        $.ajax({
+            url: '/app/api/apply.api.php',
+            type: "POST",
+            data: formData,
+            dataType: 'json'
+            
+        }).done(function (response) {
+            console.log(response)
+        })
 
     }
-
+    if ($('.titleApplication')) {
+        getIdJobToApply()
+        $('.btn-post').on("click", function () {
+            handlePostCv()
+        })
+    }
     handleinitRedirectSearch();
     handleLoadMoreJob()
     initActive()

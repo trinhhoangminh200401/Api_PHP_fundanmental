@@ -1,7 +1,7 @@
 <?php
 include(__DIR__ . '../../layouts/header.php');
-include(__DIR__ . '/../../controllers/JobController.php');
-include(__DIR__ . '/../../controllers/LocationController.php');
+include(__DIR__ . '/../../controllers/job.controller.php');
+include(__DIR__ . '/../../controllers/location.controller.php');
 
 if (Session::checkLogin()) {
     if ($_SESSION["level"] == "2") {

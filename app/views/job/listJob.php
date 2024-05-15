@@ -1,8 +1,8 @@
 <?php
-include(__DIR__ . '/../../controllers/JobController.php');
+include(__DIR__ . '/../../controllers/job.controller.php');
 
-include_once(__DIR__ . '/../../controllers/CategoryController.php');
-include_once(__DIR__ . '/../../controllers/LocationController.php');
+include_once(__DIR__ . '/../../controllers/category.controller.php');
+include_once(__DIR__ . '/../../controllers/location.controller.php');
 
 include(__DIR__ . '../../../helpers/format.php');
 include_once("../layouts/header.php");

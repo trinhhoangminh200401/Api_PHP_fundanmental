@@ -1,5 +1,5 @@
 <?php
-include_once(__DIR__ . '/../../controllers/JobController.php');
+include_once(__DIR__ . '/../../controllers/job.controller.php');
 
 $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
 $location = isset($_GET['location']) ? $_GET['location']:'';

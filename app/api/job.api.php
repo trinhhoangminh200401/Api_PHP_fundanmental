@@ -1,5 +1,5 @@
 <?php
-include_once(dirname(__FILE__) . '../../controllers/JobController.php');
+include_once(dirname(__FILE__) . '../../controllers/job.controller.php');
 $Job = new JobController();
 
 
@@ -26,7 +26,7 @@ switch ($action) {
             exit();
         }
 
-        $jobId = $_SERVER["REQUEST_METHOD"] === "GET" ? $_GET['jobId'] : null;
+        $jobId = $_SERVER["REQUEST_METHOD"] === "GET" ? $_GET['jobId'] : $_POST['jobId'];
         $jobDetails = $Job->getJobById($jobId);
         if ($jobDetails && $jobDetails->num_rows > 0) {
             $rows = [];

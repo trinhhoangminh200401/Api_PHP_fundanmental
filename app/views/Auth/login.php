@@ -2,7 +2,7 @@
 // Include the header file
 include(__DIR__ . '../../layouts/header.php');
 
-include(__DIR__ . '/../../controllers/AccountController.php');
+include(__DIR__ . '/../../controllers/account.controller.php');
 
 ?>
 
