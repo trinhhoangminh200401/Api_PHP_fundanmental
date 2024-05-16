@@ -10,13 +10,13 @@ include(dirname(__FILE__) . "../../models/user.model.php");
 
 <?php
 
-class AccountController 
+class AccountController
 {
     private $db;
     private $fm;
     public function __construct()
-    { 
- 
+    {
+
         $this->db =  new Database();
         $this->fm = new Format();
     }
@@ -35,13 +35,13 @@ class AccountController
             $result = $this->db->select($query);
             if ($result != false) {
                 $value = $result->fetch_assoc();
-               
+
                 Session::set('adminlogin', true);
                 Session::set('adminId', $value['adminId']);
                 Session::set('adminUser', $value['adminUser']);
                 Session::set('level', $value['level']);
                 Session::set('login_stamp_expire', time() + (30 * 60));
-                header("Location:../../../app/views/home.php");
+                header("Location:../../../app/pages/home.php");
                 exit;
             } else {
                 $alert = "login fail";
@@ -60,19 +60,18 @@ class AccountController
 
             echo "Registration successful!";
         } else {
-           return ;
+            return;
         }
     }
-    public function getAllUser(){
-          $userModel = new UserModel($this->db);
-          $result = $userModel ->getAllUser();
-          if ($result){
+    public function getAllUser()
+    {
+        $userModel = new UserModel($this->db);
+        $result = $userModel->getAllUser();
+        if ($result) {
             return $result;
-          }
-          else{
-             return false;
-          }
-        
+        } else {
+            return false;
+        }
     }
 }
 

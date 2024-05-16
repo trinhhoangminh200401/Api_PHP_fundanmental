@@ -1,5 +1,3 @@
 <?php
 
-include(dirname(__FILE__) . "./app/views/home.php");
-
-?>
+include(dirname(__FILE__) . "./app/pages/home.php");

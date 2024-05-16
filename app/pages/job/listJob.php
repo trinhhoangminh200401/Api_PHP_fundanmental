@@ -12,7 +12,7 @@ Session::init();
 
 if ($_SESSION["level"] != "2") {
 
-    echo "<script>window.location.href='/app/views/404.php'</script>";
+    echo "<script>window.location.href='/app/pages/404.php'</script>";
     exit();
 }
 
@@ -52,12 +52,10 @@ if ($JobCount) {
 ?>
 <div class="container table-responsive py-5">
     <div class="modal-container d-flex justify-content-end my-2">
-        <button type="button" class="btn btn-primary btnCreateJob " data-toggle="modal"
-            data-target="#exampleModalCenter ">
+        <button type="button" class="btn btn-primary btnCreateJob " data-toggle="modal" data-target="#exampleModalCenter ">
             Create Job
         </button>
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -71,8 +69,7 @@ if ($JobCount) {
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="jobName">Job Name</label>
-                                    <input type="text" class="form-control" id="jobName" name="jobName"
-                                        placeholder="Enter job name">
+                                    <input type="text" class="form-control" id="jobName" name="jobName" placeholder="Enter job name">
                                 </div>
                             </div>
                             <div class="form-group">

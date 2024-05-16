@@ -51,7 +51,7 @@ class Session
     {
         session_destroy();
         echo '<script>alert("Your session has expired. Please log in again.")
-                                 window.location.href = "/app/views/Auth/login.php"
+                                 window.location.href = "/app/pages/Auth/login.php"
 
                 </script>
                 

@@ -106,7 +106,7 @@ $(document).ready(function () {
     }
 
     const checkloginforHandler = $.ajax({
-        url: "/app/views/checkLogin.php",
+        url: "/app/pages/checkLogin.php",
         type: "GET",
         dataType: "text",
         async: false,
@@ -124,10 +124,10 @@ $(document).ready(function () {
                             <div class="row align-items-center">
                                 <div class="logo ml-3 mb-3"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTxDRpxI5gXgaVmnO-VgcVUNOkca91jIpS75Flbzkz5W_5g5_V5&usqp=CAU"></div>
                                 <p class="text-muted">CyberLogitec Vietnam Co., Ltd.</p>
-                                <a  class="btn btn-secondary text-light btn-lg btn-block" href="/app/views/apply/Apply.php?jobId=${item.jobId}">Apply Now</a>
+                                <a  class="btn btn-secondary text-light btn-lg btn-block" href="/app/pages/apply/Apply.php?jobId=${item.jobId}">Apply Now</a>
                             </div>
                             ${checkLogin
-                ? '  <a clas    s="mutual btn " href="/app/views/Auth/login.php"><i class="fas fa-users"></i>&nbsp;&nbsp;<span>Đăng nhập để xem mức lương</span></a>'
+                ? '  <a clas    s="mutual btn " href="/app/pages/Auth/login.php"><i class="fas fa-users"></i>&nbsp;&nbsp;<span>Đăng nhập để xem mức lương</span></a>'
                 : ""
             }
                           
@@ -217,7 +217,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: '/app/views/job/jobActionSearch.php',
+            url: '/app/pages/job/jobActionSearch.php',
             data: {
                 keyword: keyword || keywordParameter,
                 location: option || optionParameter
@@ -252,7 +252,7 @@ $(document).ready(function () {
         </div>
         <a class="mutual btn " href="#">
           ${checkLogin
-                            ? '  <a class="mutual btn" href="/app/views/Auth/login.php"><i class="fas fa-users"></i>&nbsp;&nbsp;<span>Đăng nhập để xem mức lương</span></a>'
+                            ? '  <a class="mutual btn" href="/app/pages/Auth/login.php"><i class="fas fa-users"></i>&nbsp;&nbsp;<span>Đăng nhập để xem mức lương</span></a>'
                             : ""
                         }
         </a>
@@ -287,7 +287,7 @@ $(document).ready(function () {
                 <p class="text-muted">CyberLogitec Vietnam Co., Ltd.</p>
             </div>
             <a class="mutual btn " href="#">
-               ${checkLogin ? '  <a class="mutual btn" href="/app/views/Auth/login.php"><i class="fas fa-users"></i>&nbsp;&nbsp;<span>Đăng nhập để xem mức lương</span>' : ""
+               ${checkLogin ? '  <a class="mutual btn" href="/app/pages/Auth/login.php"><i class="fas fa-users"></i>&nbsp;&nbsp;<span>Đăng nhập để xem mức lương</span>' : ""
                         }
             </a>
             <div class="dashed"></div>
@@ -861,7 +861,7 @@ $(document).ready(function () {
         <div class="card mx-2 p-5  my-2 card-item rounded-lg p-4 col-3 shadow-sm"  data-jobid="${job.jobId}">
         <div =class="col-xl-12">
             <div class="card-title">
-               <a href="/app/views/job/job.php"> <p class="heading h5 font-weight-bold text-capitalize">${job.jobName}<i class="far fa-compass"></i></p></a>
+               <a href="/app/pages/job/job.php"> <p class="heading h5 font-weight-bold text-capitalize">${job.jobName}<i class="far fa-compass"></i></p></a>
             </div>
             <div class=" row align-items-center justify-content-center w-100">
                 <div class="logo ml-3" style="width: 20%;">
@@ -943,6 +943,7 @@ $(document).ready(function () {
         const urlParams = new URLSearchParams(queryString);
         const id = urlParams.get('jobId')
         const formData = { action: "postcv", adminId: adminId, jobId: id }
+        const deleteAction = { action: 'softDelete' }
         $("#postCv input, #postCv textarea").each(function () {
             var fieldName = $(this).attr("name");
             var fieldValue = $(this).val();
@@ -953,10 +954,20 @@ $(document).ready(function () {
             type: "POST",
             data: formData,
             dataType: 'json'
-            
+
         }).done(function (response) {
-            console.log(response)
+            setTimeout(() => {
+                $.ajax({
+                    url: '/app/api/apply.api.php',
+                    type: "POST",
+                    data: deleteAction,
+                }).done(function (response) {
+                    console.log(response)
+                })
+            }, 3000)
+
         })
+
 
     }
     if ($('.titleApplication')) {

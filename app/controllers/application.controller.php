@@ -2,6 +2,7 @@
 require_once(dirname(__FILE__) . " ../../lib/database.php");
 require_once(dirname(__FILE__) . "../../models/application.model.php");
 require_once(dirname(__FILE__) . "../../config/config.php");
+require_once "../dto/application.dto.php";
 ?>
 <?php  
  class ApplicationController {
@@ -15,8 +16,11 @@ require_once(dirname(__FILE__) . "../../config/config.php");
     public function getListCvApply (){
          
     }
-    public function applyCv($jobId, $fileNameCv, $applicationDescription, $appliationUserName, $adminId){
-        return $this->applicationModel->applyCV($jobId, $fileNameCv, $applicationDescription, $appliationUserName, $adminId);
+    public function applyCv(ApplicationDto $dto){
+        return $this->applicationModel->applyCV($dto);
+    }
+    public function softDelete(){
+        return $this->applicationModel -> softDeleteExpireDay();
     }
     
  }

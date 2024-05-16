@@ -1,5 +1,6 @@
 <?php
 include_once(__DIR__ . '../../controllers/application.controller.php');
+include_once "../dto/application.dto.php";
 $ApplicationController = new  ApplicationController()
 
 ?>
@@ -29,7 +30,8 @@ switch ($action) {
       $adminId = $_REQUEST['adminId'];
       $jobId = $_REQUEST['jobId'];
       $applyDescription = $_REQUEST['candidateDescription'];
-      $result = $ApplicationController->applyCv($jobId, $fileName,$applyDescription,$applyUserName, $adminId);
+      $applyDto = new ApplicationDto($jobId, $fileName, $applyDescription, $applyUserName, $adminId);
+      $result = $ApplicationController->applyCv($applyDto);
       if ($result) {
         $response = array(
           "success" => true,
@@ -52,9 +54,26 @@ switch ($action) {
       header('Content-type: application/json');
       echo json_encode($response);
     }
-
+    exit();
     break;
+  case 'softDelete':
+    $result = $ApplicationController->softDelete();
+    if ($result) {
+      $response = [
+        "success" => true,
+        "message" => "success to update"
+      ];
+      echo json_encode($response);
+    } else {
+      $response = [
+        "success" => true,
+        "message" => "your record can't update!"
+      ];
+      echo json_encode($response);
+    }
 
+    exit();
+    break;
   default:
     $response = array(
       "message" => "There is not method please try again !"

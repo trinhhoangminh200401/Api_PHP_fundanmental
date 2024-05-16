@@ -8,7 +8,7 @@ include(__DIR__ . '/../../controllers/account.controller.php');
 ?>
 <?php
 if (Session::checkLogin()) {
-    header('Location:/app/views/home.php');
+    header('Location:/app/pages/home.php');
 }
 
 ?>
@@ -33,9 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="card  p-4">
                         <h3 class="fs-5 mb-0 text-it-black">
                             Welcome to
-                            <img class="px-1"
-                                src="https://itviec.com/assets/logo_black_text-04776232a37ae9091cddb3df1973277252b12ad19a16715f4486e603ade3b6a4.png"
-                                width="80" height="30">
+                            <img class="px-1" src="https://itviec.com/assets/logo_black_text-04776232a37ae9091cddb3df1973277252b12ad19a16715f4486e603ade3b6a4.png" width="80" height="30">
                         </h3>
                         <div class="card-body py-5 px-md-5">
 
@@ -44,26 +42,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <span>
                                     <?php
                                     if (isset($registercheck)) {
-                                      header("Location:'/app/views/Auth/login.php'");
+                                        header("Location:'/app/pages/Auth/login.php'");
                                     }
                                     ?>
                                 </span>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" name="adminUser" class=" form-label">User</label>
-                                    <input class="form-control" id="exampleInputEmail1" name="adminUser"
-                                        aria-describedby="emailHelp">
+                                    <input class="form-control" id="exampleInputEmail1" name="adminUser" aria-describedby="emailHelp">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="exampleInputPassword1" name="adminPass"
-                                        class=" form-label">Password</label>
-                                    <input type="password" class="form-control" name="adminPass"
-                                        id="exampleInputPassword1">
+                                    <label for="exampleInputPassword1" name="adminPass" class=" form-label">Password</label>
+                                    <input type="password" class="form-control" name="adminPass" id="exampleInputPassword1">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" type="email" name="adminEmail"
-                                        class=" form-label">Email</label>
-                                    <input class="form-control" id="exampleInputEmail1" name="adminEmail" type="email"
-                                        aria-describedby="emailHelp">
+                                    <label for="exampleInputEmail1" type="email" name="adminEmail" class=" form-label">Email</label>
+                                    <input class="form-control" id="exampleInputEmail1" name="adminEmail" type="email" aria-describedby="emailHelp">
 
                                 </div>
                                 <div class="mb-3">

@@ -7,9 +7,9 @@ include(__DIR__ . '/../../controllers/category.controller.php');
 <?php
 
 
-if (Session::get('level')!= "2") {
+if (Session::get('level') != "2") {
 
-    echo "<script>window.location.href='/app/views/404.php'</script>";
+    echo "<script>window.location.href='/app/pages/404.php'</script>";
     exit();
 }
 
@@ -30,8 +30,7 @@ $result = $addCategory->getAllCategory();
         <button type="button" class="btn btn-primary btnCreate" data-toggle="modal" data-target="#exampleModalCenter">
             Create Category
         </button>
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -43,8 +42,7 @@ $result = $addCategory->getAllCategory();
                     <div class="modal-body">
                         <form method="post" class="w-75 mx-auto my-5 " id="formCategory">
                             <label for="exampleInputEmail1">CategoryJob</label>
-                            <input type="text" class="form-control my-3" name="categoryName" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder="Enter Category">
+                            <input type="text" class="form-control my-3" name="categoryName" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Category">
 
                         </form>
                         <div class="modal-footer">
