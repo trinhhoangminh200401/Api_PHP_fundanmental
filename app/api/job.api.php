@@ -46,7 +46,45 @@ switch ($action) {
             exit();
         }
         break;
+    case'searchJob':
+        $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
+        $location = isset($_GET['location']) ? $_GET['location'] : '';
 
+
+        if ($_SERVER['REQUEST_METHOD'] !== "GET" || !$keyword && !$location) {
+            $response = array(
+                "success" => false,
+                "message" => "Invalid Method"
+
+            );
+            $responsetoJson = json_encode($response);
+            echo $responsetoJson;
+        } else {
+            $searchResults = $Job->searchInput($keyword, $location);
+            if (!empty($searchResults)) {
+                $rows = [];
+                while ($row = $searchResults->fetch_assoc()) {
+                    $rows[] = $row;
+                }
+                $count = count($rows);
+
+
+                $response = array(
+                    "countData" => $count,
+                    "data" => $rows
+                );
+                $responsetoJson = json_encode($response);
+                header('Content-type: application/json');
+                echo $responsetoJson;
+
+
+                exit();
+            }
+            $response = array(
+                "message" => "not found"
+            );
+        }
+        break;
     case 'getAllPageJob':
 
         $page = isset($_GET['page']) ? $_GET['page'] : 1;

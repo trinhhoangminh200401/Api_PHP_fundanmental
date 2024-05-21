@@ -195,6 +195,7 @@ $(document).ready(function () {
         }
         newUrl = newUrl.endsWith('&') ? newUrl.slice(0, -1) : newUrl;
         window.history.pushState({ path: newUrl }, '', newUrl);
+        const formData = { action: 'searchJob', keyword: keyword || keywordParameter, location: option || optionParameter }
         let textNameOption = $('#inputGroupSelect01 option:selected').text()
         let content = `<section class="min-vh-100 w-100 d-flex justify-content-center align-items-center">
         <div class="container">
@@ -217,24 +218,19 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: '/app/pages/job/jobActionSearch.php',
-            data: {
-                keyword: keyword || keywordParameter,
-                location: option || optionParameter
-            },
+            url: '/app/api/job.api.php',
+            data: formData,
             cache: false,
 
             beforeSend: function () {
                 $('.bodyjob').html("..loading")
             },
             success: function (response) {
-                console.log(keyword, option)
+           
                 let GetDataSearch = response.data;
-                console.log(response.data)
                 let html = "";
                 let count = "";
                 if (GetDataSearch && GetDataSearch.length > 0) {
-                    console.log(textNameOption)
                     let checkLogin = checkloginforHandler == "false";
                     count = `${response.countData} công việc liên quan đến ${(keywordParameter || optionParameter) ? `<span style="color:red">${keyword || textNameOption}</span>` : "bạn đang cần tìm"}`;
                     html += `<div class="container-card">`;
@@ -442,7 +438,7 @@ $(document).ready(function () {
             type: "GET",
             data: { action: 'getAllCategory' },
             success: function (response) {
-                if ($('.pagination-category')) {
+                if ($('.pagination-category').length>0) {
                     $('.pagination-category').pagination({
                         dataSource: response.data,
                         prevClassName: "page-link",
@@ -510,7 +506,6 @@ $(document).ready(function () {
             type: "POST",
             data: formData,
             success: function (response) {
-                console.log(response)
                 $('#exampleModalCenter').modal('hide');
                 $(".categoryTable").load('/app/api/loadpage.php', function () {
                     fetchDataCategory()
@@ -551,7 +546,6 @@ $(document).ready(function () {
             url: "/app/api/category.api.php",
             data: formData,
             success: function (response) {
-                console.log(response)
                 $('#exampleModalCenter').modal('hide');
 
             }
@@ -559,7 +553,6 @@ $(document).ready(function () {
     })
 
     function deleteCategoryId(id) {
-        console.log(id)
         let requestData = { action: 'deleteCategoryId', categoryId: id }
         $.ajax({
             url: "/app/api/category.api.php",
@@ -752,20 +745,14 @@ $(document).ready(function () {
         const requestData = {
             action: 'getJobById',
             jobId: jobId,
-
         }
-
         $.ajax({
             url: '/app/api/job.api.php',
             type: 'POST',
             data: requestData,
             dataType: 'json',
             success: function (response) {
-                console.log(response);
                 updateJob(response)
-
-
-
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
@@ -773,13 +760,10 @@ $(document).ready(function () {
         });
     });
     $('.jobTable').on('click', '.deleteJob', function () {
-
-
         const jobId = $(this).closest('tr').find('td:eq(0)').text();
         const requestData = {
             action: 'getJobById',
             jobId: jobId,
-
         }
         $.ajax({
             url: '/app/api/job.api.php',
@@ -901,7 +885,6 @@ $(document).ready(function () {
             data: { action: 'getAll' },
             dataType: 'json',
         }).done(response => {
-            console.log(response)
             if (response.success == true) {
                 let datas = response.data.map(item => jobCard(item))
                 $('.list-card').html(datas)
@@ -930,7 +913,8 @@ $(document).ready(function () {
         const id = urlParams.get('jobId')
 
         $.get(`/app/api/job.api.php?action=getJobById&jobId=${id}`, function (data, status) {
-            const name = data.map(item => item.jobName)
+             
+            const name = Array.isArray(data) && data.map(item => item.jobName)
 
             $('.titleApplication').text(name)
         });
@@ -943,7 +927,6 @@ $(document).ready(function () {
         const urlParams = new URLSearchParams(queryString);
         const id = urlParams.get('jobId')
         const formData = { action: "postcv", adminId: adminId, jobId: id }
-        const deleteAction = { action: 'softDelete' }
         $("#postCv input, #postCv textarea").each(function () {
             var fieldName = $(this).attr("name");
             var fieldValue = $(this).val();
@@ -955,27 +938,80 @@ $(document).ready(function () {
             data: formData,
             dataType: 'json'
 
-        }).done(function (response) {
-            setTimeout(() => {
-                $.ajax({
-                    url: '/app/api/apply.api.php',
-                    type: "POST",
-                    data: deleteAction,
-                }).done(function (response) {
-                    console.log(response)
-                })
-            }, 3000)
-
         })
 
-
     }
+    const deleteAction = { action: 'softDelete' }
+    function autoDeleteExpireTime() { 
+        $.ajax({
+            url: '/app/api/apply.api.php',
+            type: "POST",
+            data: deleteAction,
+        }).done(function (response) {
+                return response
+        })
+ }
+  
+
     if ($('.titleApplication')) {
         getIdJobToApply()
         $('.btn-post').on("click", function () {
             handlePostCv()
         })
     }
+    function initCalendar() {
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+
+        var calendarEl = document.getElementById("calendar");
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            nowIndicator: true,
+            headerToolbar: {
+                left: "prev,next today",
+                center: "title",
+                right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth"
+            },
+            events: [
+                {
+                    title: "Sales Meeting",
+                    start: new Date(y, m, 2, 10, 30),
+                    end: new Date(y, m, 2, 11, 30),
+                    allDay: false
+                },
+                {
+                    title: "Marketing Meeting",
+                    start: new Date(y, m, 3, 11, 30),
+                    end: new Date(y, m, 3, 12, 30),
+                    allDay: false
+                },
+                {
+                    title: "Production Meeting",
+                    start: new Date(y, m, 4, 15, 30),
+                    end: new Date(y, m, 4, 16, 30),
+                    allDay: false
+                }
+            ]
+        });
+
+        calendar.render();
+        calendar.setOption('height', 520);
+    }
+    if ($('#calendar').hasClass('calendar')) {
+          initCalendar()
+    }
+    function initTabs() {
+        $('#myTab').on('click','a', function (e) {
+            e.preventDefault()
+
+            $(this).tab('show')
+        })
+    }
+    if ($('#myTab') !== null) {
+        initTabs()
+     }
+    autoDeleteExpireTime()
     handleinitRedirectSearch();
     handleLoadMoreJob()
     initActive()

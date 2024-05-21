@@ -37,7 +37,7 @@ class AccountController
                 $value = $result->fetch_assoc();
 
                 Session::set('adminlogin', true);
-                Session::set('adminId', $value['adminId']);
+                Session::set('adminId', $value['adminId']);     
                 Session::set('adminUser', $value['adminUser']);
                 Session::set('level', $value['level']);
                 Session::set('login_stamp_expire', time() + (30 * 60));

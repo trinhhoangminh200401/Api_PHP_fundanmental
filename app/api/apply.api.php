@@ -4,6 +4,7 @@ include_once "../dto/application.dto.php";
 $ApplicationController = new  ApplicationController()
 
 ?>
+
 <?php
 if (($_SERVER["REQUEST_METHOD"] === "GET" && !isset($_GET['action'])) || ($_SERVER["REQUEST_METHOD"] === "POST" && !isset($_POST['action']))) {
   $response = array(
